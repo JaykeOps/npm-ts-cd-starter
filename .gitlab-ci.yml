@@ -1,0 +1,50 @@
+# Configures pipeline to only trigger on PR, tagged commits, or push to master branch
+# Does not work when you use gitlab ci/cd as pipeline for github
+#workflow:
+#  rules:
+#    - if: $CI_MERGE_REQUEST_ID
+#    - if: $CI_COMMIT_TAG
+#    - if: $CI_COMMIT_BRANCH == "master"
+
+image: node:12.16.2
+
+stages:
+  - install
+  - verify
+  - release
+
+install node_modules:
+  stage: install
+  script: 
+    - npm install
+  artifacts:
+    paths:
+      - node_modules/
+    expire_in: 2 days
+
+
+unit-test:
+  stage: verify
+  script: 
+   - npm run test:unit
+  coverage: '/^All files[^|]*\|[^|]*\s+([\d\.]+)/'
+  artifacts:
+    paths:
+      - coverage
+    expire_in: 2 days
+
+lint commits:
+  stage: verify
+  script:
+    - export PREVIOUS_HEAD=`git rev-parse --short HEAD^`
+    - echo $PREVIOUS_HEAD
+    - npx commitlint --from=$PREVIOUS_HEAD	--to=$CI_COMMIT_SHA
+
+
+publish:
+  stage: release
+  script:
+    - npm run build
+    - npx semantic-release
+  only:
+    - master

@@ -1,0 +1,39 @@
+{
+  "name": "",
+  "version": "0.0.0-development",
+  "description": "",
+  "main": "./dist/index.js",
+  "scripts": {
+    "test:unit": "jest --coverage",
+    "semantic-release": "semantic-release",
+    "build": "tsc"
+  },
+  "repository": {
+    "type": "git",
+    "url": ""
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": ""
+  },
+  "homepage": "",
+  "publishConfig": {
+    "access": "public"
+  },
+  "devDependencies": {
+    "@commitlint/cli": "^8.3.5",
+    "@commitlint/config-conventional": "^8.3.4",
+    "@types/jest": "^25.2.1",
+    "cz-conventional-changelog": "^3.1.0",
+    "jest": "^25.4.0",
+    "semantic-release": "^17.0.7",
+    "ts-jest": "^25.4.0",
+    "typescript": "^3.8.3"
+  },
+  "config": {
+    "commitizen": {
+      "path": "cz-conventional-changelog"
+    }
+  }
+}
